@@ -1,0 +1,5 @@
+#!/bin/bash
+
+TOKEN=TOKEN_STRING
+USER=USER_STRING
+DEVICES=DEVICE_NAME # comma separated for multiple devices
