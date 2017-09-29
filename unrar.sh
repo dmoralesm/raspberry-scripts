@@ -14,7 +14,7 @@ fi
 cd "$TORRENT_PATH"
 
 # If the TORRENT_PATH contains a file called .noextract
-# is because I created the file manually to avoid the extraction
+# is because I created the file manually to skip the extraction
 if [ -f ".noextract" ]
 then
   echo "Skipped torrent"
@@ -22,7 +22,7 @@ then
 fi
 
 find -name "*.rar" -not -path "./$EXTRACT_FOLDER/*" | while read rar_file; do
-  # Avoid the extraction of a file previously extracted
+  # Skip the extraction of a file previously extracted
   FILE_WAS_EXTRACTED=$( grep -sR "$rar_file" $EXTRACTED_LIST )
   if [ $FILE_WAS_EXTRACTED ]
   then
