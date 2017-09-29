@@ -1,6 +1,7 @@
 #!/bin/bash
 
-. pushover_config.sh
+WORKING_DIR=$( dirname $0 )
+. $WORKING_DIR/pushover_config.sh
 
 NOTIFICATION_TYPE=$1
 TITLE="Download complete"
