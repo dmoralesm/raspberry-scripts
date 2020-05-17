@@ -1,0 +1,11 @@
+{
+    "sync-rsync.exclude": [
+        ".git",
+        ".vscode",
+        "*.debug"
+    ],
+    "sync-rsync.onSave": true,
+    "sync-rsync.onSaveIndividual": true,
+    "sync-rsync.onLoadIndividual": true,
+    "sync-rsync.delete": true,
+}
