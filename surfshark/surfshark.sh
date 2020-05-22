@@ -3,6 +3,10 @@
 WORKING_DIR=$( dirname $0 )
 cd $WORKING_DIR
 
+log_to_file () {
+  echo `date +"%Y-%m-%d %T"` $1 >> $LOG
+}
+
 COUNTRY_CODE=US
 MAX_LOAD=20
 SURFSHARK_CONFIG_FILE=surfshark.conf
@@ -14,12 +18,16 @@ LOG=log.txt
 SURFSHARK_CLUSTERS=https://account.surfshark.com/api/v1/server/clusters
 SURFSHARK_CONFIGS=https://account.surfshark.com/api/v1/server/configurations
 
-COUNTRY_LOCATIONS=$(curl -s $SURFSHARK_CLUSTERS \
-  | jq "map(select( .countryCode == \"$COUNTRY_CODE\" )) | sort_by(.load)")
+API_RESPONSE=$(curl -s $SURFSHARK_CLUSTERS || echo "Error")
 
-log_to_file () {
-  echo `date +"%Y-%m-%d %T"` $1 >> $LOG
-}
+if [ "$API_RESPONSE" = "Error" ]; then
+  failed_connection_msg="No response from API. May be down or no internet connection."
+  echo $failed_connection_msg; log_to_file "$failed_connection_msg"
+  exit 1
+fi
+
+COUNTRY_LOCATIONS=$(echo $API_RESPONSE \
+  | jq "map(select( .countryCode == \"$COUNTRY_CODE\" )) | sort_by(.load)" || echo "Error")
 
 # Load previous connection id, if exists
 if [ -f "$PREV_BEST_CONN_ID_STORAGE" ]; then
