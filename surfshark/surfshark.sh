@@ -29,7 +29,8 @@ if [ -f "$PREV_BEST_CONN_ID_STORAGE" ]; then
   PREV_CONN_LOAD=$(echo $PREV_CONNECTION | jq -r '.load')
 
   if [ "$PREV_CONN_LOAD" -lt "$MAX_LOAD" ]; then
-    echo "Current load is $PREV_CONN_LOAD and is less than $MAX_LOAD. No changes."
+    no_change_msg="Current load is $PREV_CONN_LOAD and is less than $MAX_LOAD. No changes."
+    echo $no_change_msg; log_to_file "$no_change_msg"
     exit 0;
   else
     log_msg_disconnect="Disconnect from $PREV_CONN_NAME. Load $PREV_CONN_LOAD."
